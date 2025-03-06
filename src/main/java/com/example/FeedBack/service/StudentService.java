@@ -25,6 +25,10 @@ public class StudentService {
         return studentRepository.findById(id).orElse(null);
     }
 
+    public Student getStudentByStuId(String stuId){
+        return studentRepository.findByStuId(stuId);
+    }
+
     public void deleteStudent(String id) {
         studentRepository.deleteById(id);
     }
