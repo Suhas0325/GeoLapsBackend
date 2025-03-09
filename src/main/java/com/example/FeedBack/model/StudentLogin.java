@@ -10,8 +10,13 @@ public class StudentLogin {
     @Column(name = "stu_id", length = 20)
     private String stuId;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "stu_id")
+    private Student student;
 
     // Getters and Setters
     public String getStuId() {
@@ -28,5 +33,13 @@ public class StudentLogin {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }

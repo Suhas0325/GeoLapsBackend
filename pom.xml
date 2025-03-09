@@ -64,12 +64,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- JWT Library -->
-<!--		<dependency>-->
-<!--			<groupId>io.jsonwebtoken</groupId>-->
-<!--			<artifactId>jjwt</artifactId>-->
-<!--			-->
-<!--		</dependency>-->
+
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>

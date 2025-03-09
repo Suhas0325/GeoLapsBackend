@@ -1,11 +1,15 @@
 package com.example.FeedBack.controller; // Updated package
 
+import com.example.FeedBack.dto.CourseFacultyDTO;
 import com.example.FeedBack.model.Student; // Updated import
+import com.example.FeedBack.model.StudentEnrollment;
+import com.example.FeedBack.service.StudentEnrollmentService;
 import com.example.FeedBack.service.StudentService; // Updated import
 import com.example.FeedBack.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,7 +23,8 @@ public class StudentController {
     @Autowired
     private JwtUtil jwtUtil;
 
-
+    @Autowired
+    private StudentEnrollmentService enrollmentService;
 
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
@@ -39,6 +44,32 @@ public class StudentController {
 
         return  studentService.getStudentByStuId(stuId);
     }
+
+
+    @GetMapping("/me/courses")
+    public List<CourseFacultyDTO> getEnrolledCoursesWithFaculty(@RequestHeader("Authorization") String token) {
+        String jwtToken = token.substring(7);
+        String stuId = jwtUtil.extractUsername(jwtToken);
+
+        // Retrieve enrollments for the student
+        List<StudentEnrollment> enrollments = enrollmentService.getEnrollmentsByStudentId(stuId);
+
+        // Prepare the response
+        List<CourseFacultyDTO> response = new ArrayList<>();
+        for (StudentEnrollment enrollment : enrollments) {
+            String courseName = enrollment.getCourse().getCourseName();
+            String facultyName = enrollment.getCourse().getFacMappings().stream()
+                    .findFirst()
+                    .map(facMapping -> facMapping.getFaculty().getFacultyName())
+                    .orElse("No Faculty Assigned");
+
+            response.add(new CourseFacultyDTO(courseName, facultyName));
+        }
+        return response;
+    }
+
+
+
 
     @GetMapping("/{id}")
     public Student getStudentById(@PathVariable String id) {

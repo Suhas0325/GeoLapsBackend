@@ -27,14 +27,16 @@ public class Student {
     @Column(name = "Enrollment_date")
     private Date enrollmentDate;
 
-    @Column(name = "Section")
-    private String section;
+
 
     @Column(name = "GPA")
     private Float gpa;
 
     @Column(name = "Attendance")
     private Float attendance;
+
+    @Column(name = "section_name" , length = 50)
+    private String section;
 
     // Getters and Setters
     public String getStuId() {
