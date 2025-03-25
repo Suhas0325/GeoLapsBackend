@@ -15,7 +15,7 @@ public class FeedBackQuestion {
     private String questionText;
 
     @Column(name = "question_type", nullable = false, length = 20)
-    private String questionType; // "rating", "text", "checkbox"
+    private String questionType; // "rating", "text"
 
     // Getters and Setters
     public Integer getQuestionId() {

@@ -34,6 +34,17 @@ public class FeedBackResponses {
     @Column(name = "response_text", columnDefinition = "TEXT")
     private String responseText; // For text-based responses
 
+    @Column(name = "time_taken")
+    private Long timeTaken;
+
+    public Long getTimeTaken() {
+        return timeTaken;
+    }
+
+    public void setTimeTaken(Long timeTaken) {
+        this.timeTaken = timeTaken;
+    }
+
     // Getters and Setters
     public Integer getResponseId() {
         return responseId;

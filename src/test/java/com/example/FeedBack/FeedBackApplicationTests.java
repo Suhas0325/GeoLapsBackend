@@ -14,12 +14,10 @@ class FeedBackApplicationTests {
 	@Test
 	public void hashPassword(){
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		String rawPassword = "suhas123";
+		String rawPassword = "admin123";
 		String hashedPassword = encoder.encode(rawPassword);
 		System.out.println("Hashed Password: "+ hashedPassword);
 		System.out.print(encoder.matches(rawPassword , hashedPassword)  );
-		System.out.println("$2a$10$OLbth9PghmbESC4tOy3BgOjScxj4KrjKAC3Er2Zy2XWSBd070Tdce".length());
-
 	}
 
 	@Test

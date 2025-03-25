@@ -33,4 +33,15 @@ public class AuthService {
 
         return null;
     }
+
+    public boolean changePassword(String stuId, String oldPassword, String newPassword) {
+        StudentLogin studentLogin = studentLoginRepository.findByStuId(stuId);
+        if (studentLogin != null && passwordEncoder.matches(oldPassword, studentLogin.getPassword())) {
+            // Encrypt the new password and update it
+            studentLogin.setPassword(passwordEncoder.encode(newPassword));
+            studentLoginRepository.save(studentLogin);
+            return true;
+        }
+        return false;
+    }
 }

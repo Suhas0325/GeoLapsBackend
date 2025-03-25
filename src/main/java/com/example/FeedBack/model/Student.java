@@ -8,7 +8,6 @@ import java.util.Date;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "stu_id" , length = 20)
     private String stuId;
 

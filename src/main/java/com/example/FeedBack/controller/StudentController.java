@@ -58,12 +58,18 @@ public class StudentController {
         List<CourseFacultyDTO> response = new ArrayList<>();
         for (StudentEnrollment enrollment : enrollments) {
             String courseName = enrollment.getCourse().getCourseName();
+            Integer courseId = enrollment.getCourse().getCourseId();
             String facultyName = enrollment.getCourse().getFacMappings().stream()
                     .findFirst()
                     .map(facMapping -> facMapping.getFaculty().getFacultyName())
                     .orElse("No Faculty Assigned");
+            String facultyId = enrollment.getCourse().getFacMappings().stream()
+                             .findFirst()
+                             .map(facMapping -> facMapping.getFaculty().getFacultyId())
+                             .orElse(null);
 
-            response.add(new CourseFacultyDTO(courseName, facultyName));
+
+            response.add(new CourseFacultyDTO(courseId,courseName,facultyId, facultyName));
         }
         return response;
     }
