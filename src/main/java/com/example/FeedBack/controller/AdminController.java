@@ -20,7 +20,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173","http://localhost:5174"})
 public class AdminController {
 
     @Autowired
@@ -69,15 +69,16 @@ public class AdminController {
             // Fetch student details
             List<Student> students = studentRepository.findByStuIdIn(studentIds);
 
-            // Create a map for student ID -> Name lookup
-            Map<String, String> studentMap = students.stream()
-                    .collect(Collectors.toMap(Student::getStuId, Student::getStuName));
+            // Create a map for student ID -> Student details lookup
+            Map<String, Student> studentMap = students.stream()
+                    .collect(Collectors.toMap(Student::getStuId, student -> student));
 
             // Format the response
             Map<String, Map<String, Object>> studentFeedbackMap = new HashMap<>();
 
             feedbacks.forEach(feedback -> {
                 String studentId = feedback.getStudent().getStuId();
+                Student student = studentMap.get(studentId);
 
                 // If student entry does not exist, create it
                 studentFeedbackMap.putIfAbsent(studentId, new HashMap<>());
@@ -87,11 +88,14 @@ public class AdminController {
                 studentData.put("facultyName", faculty.getFacultyName());
                 studentData.put("courseName", course.getCourseName());
                 studentData.put("studentId", studentId);
-                studentData.put("studentName", studentMap.get(studentId));
+                studentData.put("studentName", student.getStuName());
                 studentData.put("timeTaken", feedback.getTimeTaken());
+                studentData.put("cgpa", student.getGpa());  // Adding CGPA
+                studentData.put("attendance", student.getAttendance());  // Adding Attendance
 
                 // Prepare feedback structure
-                Map<String, Map<String, Object>> feedbackMap = (Map<String, Map<String, Object>>) studentData.getOrDefault("feedback", new HashMap<>());
+                Map<String, Map<String, Object>> feedbackMap =
+                        (Map<String, Map<String, Object>>) studentData.getOrDefault("feedback", new HashMap<>());
 
                 Map<String, Object> questionData = new HashMap<>();
                 questionData.put("question", feedback.getQuestion().getQuestionText());
