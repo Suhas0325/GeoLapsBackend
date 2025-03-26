@@ -55,4 +55,7 @@ public interface FeedBackResponseRepository extends JpaRepository<FeedBackRespon
     long countByQuestionIdAndFacultyId(
             @Param("questionId") Integer questionId,
             @Param("facultyId") String facultyId);
+
+    @Query("SELECT f from FeedBackResponses f WHERE f.course.id = :courseId AND f.faculty.id = :facultyId")
+    List<FeedBackResponses> findByCourseIdAndFacultyId(Integer courseId, String facultyId);
 }
