@@ -1,7 +1,9 @@
 package com.example.FeedBack.model; // Updated package
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "student")
@@ -36,6 +38,11 @@ public class Student {
 
     @Column(name = "section_name" , length = 50)
     private String section;
+
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @JsonIgnore // This prevents the attendances from being serialized
+    private List<Attendance> attendances;
 
     // Getters and Setters
     public String getStuId() {
@@ -108,5 +115,13 @@ public class Student {
 
     public void setAttendance(Float attendance) {
         this.attendance = attendance;
+    }
+
+    public List<Attendance> getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(List<Attendance> attendances) {
+        this.attendances = attendances;
     }
 }
